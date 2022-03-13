@@ -12,19 +12,20 @@ possible_regions <- unique(horse_pop$GEO)
 possible_regions <- c(possible_regions[1], sort(possible_regions[-1]))
 
 
-shinyUI(fluidPage(
+ui <- fluidPage(
 
   # Application title
   titlePanel("Historical horse population data from Canada \n (1906 - 1972)"),
   
   # Sidebar with a slider input for number of bins
-ui <-sidebarLayout(
+     sidebarLayout(
      sidebarPanel(
        selectInput(inputId = "region",
                   label = "Geographic region:",
                   choices = possible_regions),
 
-      plotOutput("horse_pop_Plot")
+      plotOutput("horse_pop_Plot"),
+      downloadButton("report", "Generate report")
     ),
     
     
@@ -42,5 +43,5 @@ ui <-sidebarLayout(
       )
 
   )
-  )
 )
+

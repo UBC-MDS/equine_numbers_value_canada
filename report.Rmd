@@ -1,0 +1,91 @@
+---
+title: "Dynamic report"
+output: html_document
+params:
+  year: 1906
+  region: "Alberta"
+---
+## Report based on user choices
+### Number of horses by year 
+**Year**: `r params$year`
+
+```{r include=FALSE}
+library(tidyverse)
+library(leaflet)
+library(geojsonio)
+
+# load data
+canada <- geojsonio::geojson_read("data/canada.geojson", what = "sp")
+
+horse_pop <- read_csv("data/00030067-eng.csv")
+horse_pop <- filter(horse_pop,
+                    DATE == "At June 1 (x 1,000)")
+horse_pop$Value <- horse_pop$Value * 1000
+
+```
+
+```{r echo=FALSE}
+
+ # get year of interest from input
+    year <- params$year
+    
+    #filter to desired year
+    horse_pop_year <- filter(horse_pop,
+                             Ref_Date == year,
+                             GEO != "Canada") %>% 
+                      select(GEO, Value)
+
+    # merge data with canada data
+    canada_year <- sp::merge(canada, horse_pop_year, by.x = "NAME", by.y = "GEO")
+    
+    #create colour pallete for chloropleth map
+    pal <- colorNumeric("YlGn", NULL, n = 5)
+
+    # create pop_up data
+    prov_popup <- paste0("<strong>Province: </strong>",
+                         canada_year$NAME,
+                          "<br><strong>Number of horses: </strong>",
+                         canada_year$Value)
+
+    # create map
+    leaflet(data = canada_year) %>%
+      addProviderTiles("CartoDB.Positron") %>%
+      setView(lat = 62, lng = -105, zoom = 3) %>% 
+      addPolygons(fillColor = ~pal(Value),
+                  fillOpacity = 0.8,
+                  color = "#BDBDC3",
+                  weight = 1,
+                  popup = prov_popup) %>%
+      addLegend(pal = pal, 
+                values = ~ Value,  
+                opacity = 0.7, 
+                title = paste0("Number of horses (",  params$year, ")"),
+                position = "topright")
+
+
+
+```
+
+
+### Horse population by region
+**Region**: `r params$region`
+
+```{r echo=FALSE}
+ # get region of interest from input
+    region <- params$region
+
+    # draw the line plot for the specified region
+    horse_pop_region <- filter(horse_pop,
+                               GEO == region)
+    
+    ggplot(horse_pop_region, aes(x = Ref_Date, y = Value)) +
+      geom_point() +
+      geom_line() +
+      xlab("Year") +
+      ylab("Number of horses") +
+      ggtitle(region)
+
+```
+
+
+
