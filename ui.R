@@ -18,7 +18,7 @@ shinyUI(fluidPage(
   titlePanel("Historical horse population data from Canada \n (1906 - 1972)"),
   
   # Sidebar with a slider input for number of bins
-   sidebarLayout(
+ui <-sidebarLayout(
      sidebarPanel(
        selectInput(inputId = "region",
                   label = "Geographic region:",

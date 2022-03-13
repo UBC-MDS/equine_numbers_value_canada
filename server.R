@@ -17,7 +17,7 @@ horse_pop <- filter(horse_pop,
 horse_pop$Value <- horse_pop$Value * 1000
 
 # create plot & map outputs that change based on user inputs
-shinyServer(function(input, output) {
+server <- function(input, output) {
   
   output$horse_pop_Plot <- renderPlot({
 
@@ -74,5 +74,5 @@ shinyServer(function(input, output) {
                 title = paste0("Number of horses (",  input$year, ")"),
                 position = "topright")
 
-  })
 })
+}
