@@ -1,14 +1,14 @@
 # server logics code for equine_numbers_value_canada shiny app
 # author: Tiffany A. Timbers 
 # created: Feb 27, 2017
-# Updated: Florencia D'Andrea / Mar 16, 2022
+# updated: Florencia D'Andrea / Mar 16, 2022
 
 library(shiny)
 library(tidyverse)
 library(leaflet)
 library(geojsonio)
 library(rmarkdown)
-library(here)
+
 
 # load data
 canada <- geojsonio::geojson_read("data/canada.geojson", what = "sp")
@@ -77,27 +77,27 @@ server <- function(input, output) {
                 position = "topright")
   })
     
-output$report <- downloadHandler(
-      # For PDF output, change this to "report.pdf"
-      filename = "report.html",
-      content = function(file) {
-        
-        # Set up parameters to pass to Rmd document
-        params <- list(year = input$year,
-                       region = input$region )
-        
-     
-        # Knit the document, passing in the `params` list, and eval it in a
-        # child of the global environment (this isolates the code in the document
-        # from the code in this app).
-        rmarkdown::render("report.Rmd", 
-                          output_file = file,
-                          params = params,
-                          envir = new.env(parent = globalenv())
-        )
-        
-  }
-)
-
+  output$report <- downloadHandler(
+    # For PDF output, change this to "report.pdf"
+    filename = "report.html",
+    content = function(file) {
+      
+      # Set up parameters to pass to Rmd document
+      params <- list(year = input$year,
+                     region = input$region )
+      
+      
+      # Knit the document, passing in the `params` list, and eval it in a
+      # child of the global environment (this isolates the code in the document
+      # from the code in this app).
+      rmarkdown::render("report.Rmd", 
+                        output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+      
+    }
+  )
+  
 }
 

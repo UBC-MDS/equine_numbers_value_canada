@@ -1,0 +1,11 @@
+app <- ShinyDriver$new("../../")
+app$snapshotInit("othertest")
+
+app$setInputs(region = "Nova Scotia")
+app$snapshot()
+app$setInputs(year = 1963)
+app$snapshot()
+app$setInputs(year = 1934)
+app$snapshot()
+app$setInputs(region = "Saskatchewan")
+app$snapshot()
