@@ -1,6 +1,7 @@
 # user interface code for equine_numbers_value_canada shiny app
 # author: Tiffany A. Timbers
 # created: Feb 27, 2017
+# Updated: Florencia D'Andrea / Mar 16, 2022
 
 library(shiny)
 library(leaflet)

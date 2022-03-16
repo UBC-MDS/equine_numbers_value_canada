@@ -2,7 +2,10 @@ app <- ShinyDriver$new("../../")
 app$snapshotInit("mytest")
 
 app$snapshot()
-
-app$setInputs(`examplemodule1-button` = "click")
-app$setInputs(`examplemodule1-button` = "click")
+app$setInputs(region = "Ontario")
+app$setInputs(year = 1955)
+app$snapshot()
+app$setInputs(year = 1924)
+app$snapshot()
+app$setInputs(region = "Manitoba")
 app$snapshot()

@@ -1,0 +1,3 @@
+library(shinytest)
+recordTest()
+testApp()

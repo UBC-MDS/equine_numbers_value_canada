@@ -1,13 +1,14 @@
 # server logics code for equine_numbers_value_canada shiny app
-# author: Tiffany A. Timbers
+# author: Tiffany A. Timbers 
 # created: Feb 27, 2017
+# Updated: Florencia D'Andrea / Mar 16, 2022
 
 library(shiny)
 library(tidyverse)
 library(leaflet)
 library(geojsonio)
 library(rmarkdown)
-
+library(here)
 
 # load data
 canada <- geojsonio::geojson_read("data/canada.geojson", what = "sp")
@@ -80,9 +81,6 @@ output$report <- downloadHandler(
       # For PDF output, change this to "report.pdf"
       filename = "report.html",
       content = function(file) {
-        # Copy the report file to a temporary directory before processing it, in
-        # case we don't have write permissions to the current working dir (which
-        # can happen when deployed).
         
         # Set up parameters to pass to Rmd document
         params <- list(year = input$year,
